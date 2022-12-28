@@ -4,21 +4,22 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
 @Table(name = "battles")
 public class Battle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(nullable = false)
     Long id;
 
@@ -29,18 +30,18 @@ public class Battle {
     String description;
 
     @OneToOne
-    @JoinColumn(name = "lead")
+    @JoinColumn(name = "leader")
     BattleMember leader;
 
-    @Column(nullable = false, columnDefinition = "2")
-    Integer status;
+    @Column(nullable = false)
+    Integer state;
 
     @Column(name = "time_start", nullable = false)
-    LocalDateTime startAt;
+    LocalDate dateStart;
 
     @OneToOne
     @JoinColumn(nullable = false)
-    BattleClient initiator;
+    BattleClient owner;
 
     @OneToMany(targetEntity = BattleMember.class,
             cascade = CascadeType.ALL,

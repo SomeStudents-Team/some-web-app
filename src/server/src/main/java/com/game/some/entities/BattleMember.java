@@ -4,27 +4,28 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "battle_members")
 public class BattleMember {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Long id;
 
     @Column(nullable = false)
     String name;
 
     @Column(name = "create_time", nullable = false)
-    LocalDateTime createTime;
+    LocalDate dateCreate;
 
-    @Column(nullable = false, columnDefinition = "0")
     Long score;
 
     String image;

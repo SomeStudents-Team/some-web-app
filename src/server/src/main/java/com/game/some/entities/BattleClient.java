@@ -1,15 +1,13 @@
 package com.game.some.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "battle_clients",
@@ -18,7 +16,7 @@ import javax.persistence.*;
 public class BattleClient {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy =  GenerationType.SEQUENCE)
     Long id;
 
     @Column(nullable = false)
