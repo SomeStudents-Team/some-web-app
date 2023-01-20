@@ -3,6 +3,8 @@ package com.game.some.dto.factories;
 import com.game.some.dto.BattleDto;
 import com.game.some.entities.Battle;
 
+import java.util.List;
+
 public class BattleDtoFactory {
 
     public static BattleDto makeBattleDto(Battle battle)
@@ -22,5 +24,9 @@ public class BattleDtoFactory {
                 .dateStart(battle.getDateStart().toString())
                 .state(battle.getState())
                 .build();
+    }
+
+    public static List<BattleDto> makeBattleDtoListFromBattleList(List<Battle> battles) {
+        return battles.stream().map(BattleDtoFactory::makeBattleDto).toList();
     }
 }
