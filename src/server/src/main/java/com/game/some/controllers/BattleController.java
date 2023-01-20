@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -97,7 +98,7 @@ public class BattleController {
             builder
                 .isSuccess(true)
                 .code(HttpStatus.OK)
-                .data(battleService.findAll(PageRequest.of(page, size, Sort.by(sort).ascending()))
+                .data(battleService.findAll(PageRequest.of(page, size, Sort.by(sort).descending()))
                         .map(BattleDtoFactory::makeBattleDto));
         }
         catch (Exception e)
@@ -128,6 +129,43 @@ public class BattleController {
                 .code((battle.isPresent()) ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
                 .isSuccess(battle.isPresent())
                 .build();
+    }
+
+    @GetMapping("/after/{date}")
+    public BattleResponseEntity<List<BattleDto>> getBattlesAfterDate(@PathVariable("date") String date) {
+
+        BattleResponseEntityBuilder<List<BattleDto>> builder =
+                new BattleResponseEntityBuilder<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        try {
+
+            LocalDate localDate = LocalDate.parse(date, formatter);
+
+            return builder
+                    .code(HttpStatus.OK)
+                    .isSuccess(true)
+                    .data(BattleDtoFactory.makeBattleDtoListFromBattleList(
+                            battleService.getBattlesAfterDate(localDate)))
+                    .build();
+
+        } catch (Exception e) {
+            return builder
+                    .code(HttpStatus.BAD_REQUEST)
+                    .isSuccess(false)
+                    .build();
+        }
+    }
+
+    @GetMapping("/count")
+    public BattleResponseEntity<Long> getBattlesCount() {
+
+        return new BattleResponseEntityBuilder<Long>()
+                    .code(HttpStatus.OK)
+                    .isSuccess(true)
+                    .data(battleService.getBattlesCount())
+                    .build();
     }
 
     @GetMapping("/now")
