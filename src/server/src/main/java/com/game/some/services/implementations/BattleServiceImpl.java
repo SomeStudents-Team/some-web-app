@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -57,6 +58,16 @@ public class BattleServiceImpl implements BattleService {
     @Override
     public Optional<Battle> findById(Long id) {
         return battleRepository.findById(id);
+    }
+
+    @Override
+    public List<Battle> getBattlesAfterDate(LocalDate date) {
+        return battleRepository.getBattlesByDateStartAfterOrderByDateStartDesc(date);
+    }
+
+    @Override
+    public Long getBattlesCount() {
+        return battleRepository.getBattlesCount();
     }
 
     @Override
