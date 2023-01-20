@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface BattleRepository extends CrudRepository<Battle, Long> {
@@ -19,5 +20,10 @@ public interface BattleRepository extends CrudRepository<Battle, Long> {
     Optional<Battle> findBattleByState(int status);
 
     Optional<Battle> findBattleByDateStart(LocalDate date);
+
+    List<Battle> getBattlesByDateStartAfterOrderByDateStartDesc(LocalDate date);
+
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM battles")
+    Long getBattlesCount();
 }
 
