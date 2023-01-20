@@ -3,7 +3,7 @@ import {AppProps} from "./models/app/AppProps";
 import {AppStates} from "./models/app/AppStates";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Navbar from "./components/Navbar";
-import {History} from "./pages/History";
+import History from "./pages/History";
 import Main from "./pages/Main";
 import Container from "@mui/material/Container";
 
